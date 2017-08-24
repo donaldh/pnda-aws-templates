@@ -14,22 +14,22 @@ DISTRO=$(cat /etc/*-release|grep ^ID\=|awk -F\= {'print $2'}|sed s/\"//g)
 if [ "x$DISTRO" == "xubuntu" ]; then
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y install xfsprogs salt-minion=2015.8.11+ds-1
-elif [ "x$DISTRO" == "xrhel" ]; then
+elif [ "x$DISTRO" == "xrhel" -o "x$DISTRO" == "xcentos" ]; then
 yum -y install xfsprogs wget salt-minion-2015.8.11-1.el7
 fi
 
 # Mount the log volume, this is always xvdc
 mkdir -p /var/log/pnda
-if [ -b /dev/xvdc ];
+if [ -b /dev/loop0 ];
 then
-   echo "Mounting xvdc for logs"
-   umount /dev/xvdc || echo 'not mounted'
-   mkfs.xfs -f /dev/xvdc
+   echo "Mounting loop0 for logs"
+   umount /dev/loop0 || echo 'not mounted'
+   mkfs.xfs -f /dev/loop0
    sed -i "/xvdc/d" /etc/fstab
-   echo "/dev/xvdc /var/log/pnda auto defaults 0 2" >> /etc/fstab
+   echo "/dev/loop0 /var/log/pnda auto defaults 0 2" >> /etc/fstab
 fi
 # Mount the other volumes if they exist, up to 3 more may be mounted but this list could be extended if required
-DISKS="xvdd xvde xvdf"
+DISKS="loop1"
 DISK_IDX=0
 for DISK in $DISKS; do
    echo $DISK
@@ -74,7 +74,8 @@ index_url=$PIP_INDEX_URL
 find_links=https://pypi.python.org/simple/
 EOF
 
-if [ "x$DISTRO" == "xrhel" ]; then
+if [ "x$DISTRO" == "xrhel" -o "x$DISTRO" == "xcentos" ]; then
+    mkdir -p /etc/cloud
 cat >> /etc/cloud/cloud.cfg <<EOF
 preserve_hostname: true
 EOF

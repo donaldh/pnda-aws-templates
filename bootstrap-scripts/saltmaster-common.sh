@@ -17,7 +17,7 @@ apt-get -y install unzip salt-master=2015.8.11+ds-1 git
 HDP_OS=ubuntu14
 fi
 
-if [ "x$DISTRO" == "xrhel" ]; then
+if [ "x$DISTRO" == "xrhel" -o "x$DISTRO" == "xcentos" ]; then
 yum -y install unzip salt-master-2015.8.11-1.el7 git
 HDP_OS=centos7
 fi
@@ -65,7 +65,7 @@ if [ "x$PLATFORM_GIT_REPO_URI" != "x" ]; then
   # Set up ssh access to the platform-salt git repo on the package server,
   # if secure access is required this key will be used automatically.
   # This mode is not normally used now the public github is available
-  chmod 400 /tmp/git.pem || true
+  chmod 600 /tmp/git.pem || true
 
   echo "Host $PLATFORM_GIT_REPO_HOST" >> /root/.ssh/config
   echo "  IdentityFile /tmp/git.pem" >> /root/.ssh/config
