@@ -25,7 +25,7 @@ then
    echo "Mounting loop0 for logs"
    umount /dev/loop0 || echo 'not mounted'
    mkfs.xfs -f /dev/loop0
-   sed -i "/xvdc/d" /etc/fstab
+   sed -i "/loop0/d" /etc/fstab
    echo "/dev/loop0 /var/log/pnda auto defaults 0 2" >> /etc/fstab
 fi
 # Mount the other volumes if they exist, up to 3 more may be mounted but this list could be extended if required

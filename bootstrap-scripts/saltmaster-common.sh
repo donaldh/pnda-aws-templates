@@ -66,7 +66,8 @@ if [ "x$PLATFORM_GIT_REPO_URI" != "x" ]; then
   # if secure access is required this key will be used automatically.
   # This mode is not normally used now the public github is available
   chmod 600 /tmp/git.pem || true
-
+  mkdir /root/.ssh
+  chmod 600 /root/.ssh
   echo "Host $PLATFORM_GIT_REPO_HOST" >> /root/.ssh/config
   echo "  IdentityFile /tmp/git.pem" >> /root/.ssh/config
   echo "  StrictHostKeyChecking no" >> /root/.ssh/config
