@@ -17,8 +17,8 @@ elif [ "x$DISTRO" == "xrhel" -o "x$DISTRO" == "xcentos" ]; then
 if [ "x$YUM_OFFLINE" == "x" ]; then
 RPM_EXTRAS=rhui-REGION-rhel-server-extras
 RPM_OPTIONAL=rhui-REGION-rhel-server-optional
+yum install -y yum-plugin-priorities yum-utils
 yum-config-manager --enable $RPM_EXTRAS $RPM_OPTIONAL
-yum install -y yum-plugin-priorities yum-utils 
 PNDA_REPO=${PNDA_MIRROR/http\:\/\//}
 PNDA_REPO=${PNDA_REPO/\//_mirror_rpm}
 yum-config-manager --add-repo $PNDA_MIRROR/mirror_rpm
