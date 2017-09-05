@@ -26,7 +26,12 @@ yum-config-manager --setopt="$PNDA_REPO.priority=1" --enable $PNDA_REPO
 else
 mkdir -p /etc/yum.repos.d.backup/
 mv /etc/yum.repos.d/* /etc/yum.repos.d.backup/
-yum-config-manager --add-repo $PNDA_MIRROR/mirror_rpm
+cat > /etc/yum.repos.d/pnda-mirror.repo <<EOF
+[pnda-mirror]
+name=PNDA RPM Mirror
+baseurl=$PNDA_MIRROR/mirror_rpm
+enabled=1
+EOF
 fi
 
 if [ "x$DISTRO" == "xrhel" ]; then
