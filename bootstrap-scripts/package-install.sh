@@ -12,7 +12,7 @@ if [ "x$DISTRO" == "xubuntu" ]; then
   (curl -L 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key' | apt-key add - ) && echo 'deb [arch=amd64] https://deb.nodesource.com/node_6.x trusty main' > /etc/apt/sources.list.d/nodesource.list
   apt-get update
 
-elif [ "x$DISTRO" == "xrhel" ]; then
+elif [ "x$DISTRO" == "xrhel" -o "x$DISTRO" == "xcentos" ]; then
 
 if [ "x$YUM_OFFLINE" == "x" ]; then
 RPM_EXTRAS=rhui-REGION-rhel-server-extras
@@ -29,8 +29,9 @@ mv /etc/yum.repos.d/* /etc/yum.repos.d.backup/
 yum-config-manager --add-repo $PNDA_MIRROR/mirror_rpm
 fi
 
-
-rpm --import $PNDA_MIRROR/mirror_rpm/RPM-GPG-KEY-redhat-release
+if [ "x$DISTRO" == "xrhel" ]; then
+    rpm --import $PNDA_MIRROR/mirror_rpm/RPM-GPG-KEY-redhat-release
+fi
 rpm --import $PNDA_MIRROR/mirror_rpm/RPM-GPG-KEY-mysql
 rpm --import $PNDA_MIRROR/mirror_rpm/RPM-GPG-KEY-cloudera
 rpm --import $PNDA_MIRROR/mirror_rpm/RPM-GPG-KEY-EPEL-7
